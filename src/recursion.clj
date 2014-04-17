@@ -1,22 +1,40 @@
 (ns recursion)
 
 (defn product [coll]
-  :-)
+  (if (empty? coll)
+    1
+    (* (first coll) (product (rest coll))))) ; so tempting (apply * coll)
 
 (defn singleton? [coll]
-  :-)
+  (if (empty? coll)
+    false
+    (empty? (rest coll))))
 
 (defn my-last [coll]
-  :-)
+  (if (singleton? coll)
+    (first coll)
+    (if (empty? coll)
+      nil
+      (my-last (rest coll)))))
 
 (defn max-element [a-seq]
-  :-)
+  (if (empty? a-seq)
+    nil
+    (if (singleton? a-seq)
+      (first a-seq)
+      (max (first a-seq) (max-element (rest a-seq))))))
 
 (defn seq-max [seq-1 seq-2]
-  [:-])
+  (if (< (count seq-2) (count seq-1))
+    seq-1
+    seq-2))
 
 (defn longest-sequence [a-seq]
-  [:-])
+  (if (empty? a-seq)
+    nil
+    (if (singleton? a-seq)
+      (first a-seq)
+      (seq-max (first a-seq) (longest-sequence (rest a-seq))))))
 
 (defn my-filter [pred? a-seq]
   [:-])
