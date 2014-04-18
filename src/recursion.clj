@@ -106,7 +106,17 @@
   (map reverse (reverse (tails (reverse a-seq)))))
 
 (defn rotations [a-seq]
-  [:-])
+  (n-rotations a-seq (count a-seq)))
+
+(defn n-rotations [a-seq, rotations]
+  (if (< rotations 2)
+    [a-seq]
+    (concat [a-seq] (n-rotations (rotate a-seq) (- rotations 1)))))
+
+(defn rotate [a-seq]
+  (concat (rest a-seq) [(first a-seq)]))
+
+(rotate [3 1 9])
 
 (defn my-frequencies-helper [freqs a-seq]
   [:-])
