@@ -106,17 +106,20 @@
   (map reverse (reverse (tails (reverse a-seq)))))
 
 (defn rotations [a-seq]
-  (n-rotations a-seq (count a-seq)))
+  (if (empty? a-seq)
+    '(())
+    (take (count a-seq) (lazy-rotate a-seq))))
+
+(defn rotate [a-seq]
+  (concat (rest a-seq) [(first a-seq)]))
 
 (defn n-rotations [a-seq, rotations]
   (if (< rotations 2)
     [a-seq]
     (concat [a-seq] (n-rotations (rotate a-seq) (- rotations 1)))))
 
-(defn rotate [a-seq]
-  (concat (rest a-seq) [(first a-seq)]))
-
-(rotate [3 1 9])
+(defn lazy-rotate [a-seq]
+  (cons a-seq (lazy-seq (lazy-rotate (rotate a-seq)))))
 
 (defn my-frequencies-helper [freqs a-seq]
   [:-])
