@@ -171,7 +171,15 @@
       (seq-merge (merge-sort (first splitted)) (merge-sort (last splitted))))))
 
 (defn split-into-monotonics [a-seq]
-  [:-])
+  (if (empty? a-seq)
+    a-seq
+    (let [longest-so-far (longest-monotone-seq (reverse (inits a-seq)))
+          length-so-far (count longest-so-far)
+          to-go (drop length-so-far a-seq)]
+          (concat [longest-so-far] (split-into-monotonics to-go)))))
+
+(defn longest-monotone-seq [seqs]
+  (first (filter (fn [s] (or (apply >= s) (apply <= s))) seqs)))
 
 (defn permutations [a-set]
   [:-])
