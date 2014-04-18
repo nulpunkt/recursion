@@ -121,14 +121,10 @@
 (defn lazy-rotate [a-seq]
   (cons a-seq (lazy-seq (lazy-rotate (rotate a-seq)))))
 
-(defn freqs-inc [freqs elem]
-  (let [elem-count (inc (get freqs elem 0))]
-        (clojure.set/union freqs {elem elem-count})))
-
 (defn my-frequencies-helper [freqs a-seq]
   (if (empty? a-seq)
     freqs
-    (my-frequencies-helper (freqs-inc freqs (first a-seq)) (rest a-seq))))
+    (my-frequencies-helper (update-in freqs [(first a-seq)] (fnil inc 0)) (rest a-seq))))
 
 (defn my-frequencies [a-seq]
   (my-frequencies-helper {} a-seq))
