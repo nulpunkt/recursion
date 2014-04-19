@@ -203,6 +203,6 @@
   (if (empty? a-set)
     #{#{}}
     (let [e (first a-set)
-          T (remove-from-set e a-set)
+          T (rest a-set)
           pT (powerset T)]
       (clojure.set/union pT (put-element-in-all-lists e pT)))))
