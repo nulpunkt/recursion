@@ -105,21 +105,21 @@
 (defn inits [a-seq]
   (map reverse (reverse (tails (reverse a-seq)))))
 
+(defn rotate [a-seq]
+  (concat (rest a-seq) [(first a-seq)]))
+
+(defn lazy-rotate [a-seq]
+  (cons a-seq (lazy-seq (lazy-rotate (rotate a-seq)))))
+
 (defn rotations [a-seq]
   (if (empty? a-seq)
     '(())
     (take (count a-seq) (lazy-rotate a-seq))))
 
-(defn rotate [a-seq]
-  (concat (rest a-seq) [(first a-seq)]))
-
 (defn n-rotations [a-seq, rotations]
   (if (< rotations 2)
     [a-seq]
     (concat [a-seq] (n-rotations (rotate a-seq) (- rotations 1)))))
-
-(defn lazy-rotate [a-seq]
-  (cons a-seq (lazy-seq (lazy-rotate (rotate a-seq)))))
 
 (defn my-frequencies-helper [freqs a-seq]
   (if (empty? a-seq)
@@ -169,6 +169,9 @@
     a-seq
     (let [splitted (halve a-seq)]
       (seq-merge (merge-sort (first splitted)) (merge-sort (last splitted))))))
+
+(defn longest-monotone-seq [seqs]
+  (first (filter (fn [s] (or (apply >= s) (apply <= s))) seqs)))
 
 (defn split-into-monotonics [a-seq]
   (if (empty? a-seq)
