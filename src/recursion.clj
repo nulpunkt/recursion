@@ -190,9 +190,19 @@
     (= (count a-set) 2) [a-set, (reverse a-set)]
     :else (mapcat (fn [s] (remove-and-combine s a-set)) a-set)))
 
+(defn remove-from-set [s a-set]
+  (remove (partial = s) a-set))
+
 (defn remove-and-combine [s a-set]
-  (map (fn [p] (cons s p)) (permutations (remove (partial = s) a-set))))
+  (map (fn [p] (cons s p)) (permutations (remove-from-set s a-set))))
+
+(defn put-element-in-all-lists [e lists]
+  (set (map (fn [l] (conj l e)) lists)))
 
 (defn powerset [a-set]
-  [:-])
-
+  (if (empty? a-set)
+    #{#{}}
+    (let [e (first a-set)
+          T (remove-from-set e a-set)
+          pT (powerset T)]
+      (clojure.set/union pT (put-element-in-all-lists e pT)))))
