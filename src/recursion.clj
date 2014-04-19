@@ -181,11 +181,17 @@
           to-go (drop length-so-far a-seq)]
           (concat [longest-so-far] (split-into-monotonics to-go)))))
 
-(defn longest-monotone-seq [seqs]
-  (first (filter (fn [s] (or (apply >= s) (apply <= s))) seqs)))
+(declare remove-and-combine)
 
 (defn permutations [a-set]
-  [:-])
+  (cond
+    (empty? a-set) [a-set]
+    (singleton? a-set) [a-set]
+    (= (count a-set) 2) [a-set, (reverse a-set)]
+    :else (mapcat (fn [s] (remove-and-combine s a-set)) a-set)))
+
+(defn remove-and-combine [s a-set]
+  (map (fn [p] (cons s p)) (permutations (remove (partial = s) a-set))))
 
 (defn powerset [a-set]
   [:-])
